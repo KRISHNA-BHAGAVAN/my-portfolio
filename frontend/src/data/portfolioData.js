@@ -3,15 +3,15 @@
 export const portfolioData = {
   personal: {
     name: "KRISHNA BHAGAVAN KARRI",
-    title: "Backend Web Developer • Generative AI • Web Automation",
+    title: "Full Stack Web Developer • Generative AI • Agentic AI",
     email: "krishnabhagavan910@gmail.com",
     phone: "+91-7569048553",
     github: "https://github.com/KRISHNA-BHAGAVAN?tab=repositories",
     linkedin: "https://www.linkedin.com/in/krishnabhagavan/",
     careerObjective: "Enthusiastic about Backend Web Development, Microservices, Cloud Computing, Generative AI and Web Automation. I thrive in collaborative environments, building impactful solutions with emerging technologies.",
-    resumePdf: "https://customer-assets.emergentagent.com/job_react-tailwind-dev/artifacts/8zbanz7p_krishna%20bhagavan%20resume.pdf"
+    resumePdf: "/Krishna Bhagavan Karri Resume.pdf"
   },
-  
+
   skills: [
     {
       category: "Web Technologies",
@@ -30,7 +30,7 @@ export const portfolioData = {
       items: ["Full Stack Web Development", "Generative AI", "Web Automation", "Microservices", "Cloud Computing"]
     }
   ],
-  
+
   projects: [
     {
       id: 1,
@@ -60,7 +60,7 @@ export const portfolioData = {
       tags: ["Full-Stack", "Ecommerce", "TypeScript"]
     }
   ],
-  
+
   experience: [
     {
       id: 1,
@@ -70,11 +70,11 @@ export const portfolioData = {
       details: "Built 'Automated Reporting System' to automate college report generation with secure auth and streamlined admin workflows."
     }
   ],
-  
+
   achievements: [
     "Selected for Finals in Bajaj Hackrx 6.0 - National level hackathon"
   ],
-  
+
   education: [
     {
       id: 1,

@@ -22,19 +22,19 @@ const Hero = () => {
             <div className="inline-block px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium">
               Available for opportunities
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
               Hi, I'm <span className="text-teal-600 dark:text-teal-400">{personal.name.split(' ')[0]}</span>
             </h1>
-            
+
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-300">
               {personal.title}
             </h2>
-            
+
             <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
               {personal.careerObjective}
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4 pt-4">
               <Button
@@ -44,7 +44,7 @@ const Hero = () => {
                 Get In Touch
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              
+
               <Button
                 variant="outline"
                 className="px-6 py-6 text-base border-2"
@@ -56,7 +56,7 @@ const Hero = () => {
                 </a>
               </Button>
             </div>
-            
+
             {/* Social Links */}
             <div className="flex items-center gap-4 pt-4">
               <a
@@ -93,18 +93,18 @@ const Hero = () => {
               </a>
             </div>
           </div>
-          
+
           {/* Right Image */}
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src={`${process.env.PUBLIC_URL}/krishna-job-photo.png`}
+                src={`${process.env.PUBLIC_URL}/krishna bhagavan official.jpeg`}
                 alt="Krishna Bhagavan Karri"
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
             </div>
-            
+
             {/* Floating Card */}
             <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
               <div className="flex items-center space-x-3">
