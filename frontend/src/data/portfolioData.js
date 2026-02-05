@@ -84,13 +84,13 @@ export const portfolioData = {
     },
     {
       id: 2,
-      degree: "Intermediate (Class XII)",
+      degree: "Class XII (Intermediate - MPC)",
       school: "Vaishnavi Junior College, Tuni, Andhra Pradesh, India",
       years: "2020 – 2022"
     },
     {
       id: 3,
-      degree: "SSC (Class X)",
+      degree: "Class X (SSC)",
       school: "Loyola E.M School, Tuni, Andhra Pradesh, India",
       years: "2019 – 2020"
     }

@@ -1,6 +1,10 @@
-<p align="left">
-  <img src="https://komarev.com/ghpvc/?username=KRISHNA-BHAGAVAN&style=flat-square&color=brightgreen&labelColor=000000&label=Profile%20Views" />
+<p>
+  <img src="https://komarev.com/ghpvc/?username=KRISHNA-BHAGAVAN&style=flat-square&color=brightgreen&labelColor=000000&label=Profile%20Views" align="left" />
+  <a href="https://www.krishnabhagavan.me/" target="_blank">
+    <img src="https://img.shields.io/badge/Portfolio-Visit%20Site-00FFFF?style=for-the-badge&logo=googlechrome&logoColor=black" align="right" />
+  </a>
 </p>
+<br />
 
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=25&pause=1000&color=00FFFF&center=true&vCenter=true&width=600&lines=✦+Hi%2C+I'm+Krishna+Bhagavan;GenAI+%2B+Full-Stack+Developer;⚡+Building+Intelligent+%26+Scalable+Systems" alt="Typing SVG" />
