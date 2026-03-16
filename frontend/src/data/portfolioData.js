@@ -8,56 +8,78 @@ export const portfolioData = {
     phone: "+91-7569048553",
     github: "https://github.com/KRISHNA-BHAGAVAN?tab=repositories",
     linkedin: "https://www.linkedin.com/in/krishnabhagavan/",
-    careerObjective: "Enthusiastic about Backend Web Development, Microservices, Cloud Computing, Generative AI and Web Automation. I thrive in collaborative environments, building impactful solutions with emerging technologies.",
+    careerObjective: "Aspiring Full Stack Developer (MERN) with hands-on experience in Generative AI, seeking to build scalable, real-world applications and intelligent AI-driven solutions.",
     resumePdf: "/Krishna Bhagavan Karri Resume.pdf"
   },
 
   skills: [
     {
-      category: "Web Technologies",
-      items: ["HTML5", "CSS", "JavaScript", "Express JS", "NodeJS", "ReactJS", "Tailwind CSS"]
+      category: "Frontend",
+      items: ["HTML5", "CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS"]
+    },
+    {
+      category: "Backend",
+      items: ["Node.js", "Express.js", "FastAPI", "RESTful APIs", "Microservices"]
     },
     {
       category: "Databases",
-      items: ["MySQL", "MongoDB"]
+      items: ["MySQL", "MongoDB", "PostgreSQL"]
     },
     {
-      category: "AI & Automation Frameworks",
-      items: ["LangChain", "LangGraph", "LangSmith", "Pydantic AI", "Streamlit", "Playwright"]
+      category: "Generative AI",
+      items: ["Python", "LangChain", "LangGraph", "Pydantic", "LangSmith", "Agentic AI"]
     },
     {
-      category: "Areas of Expertise",
-      items: ["Full Stack Web Development", "Generative AI", "Web Automation", "Microservices", "Cloud Computing"]
+      category: "DevOps & Tools",
+      items: ["Git", "Docker", "Linux", "Supabase", "Redis", "Cloudinary", "Nginx"]
     }
   ],
-
+  
   projects: [
     {
       id: 1,
-      name: "Bajaj Hackrx 6.0 IQRS – Intelligent Query & Reasoning System",
-      link: "https://github.com/KRISHNA-BHAGAVAN/Bajaj-Hackrx-6.0-Entity",
-      summary: "AI-powered RAG platform using LangGraph and LLMs to query multi-format documents. Autonomous agents, FastAPI backend, FAISS caching, pluggable models.",
-      tech: ["Langchain", "LangGraph", "RAG", "FastAPI", "FAISS", "OpenAI"],
-      image: "https://images.unsplash.com/photo-1554224155-cfa08c2a758f",
-      tags: ["AI", "Backend", "Python"]
+      name: "UniPilot – University Management System",
+      link: "https://github.com/gspavan07/UniPilot",
+      summary: "Comprehensive university administration platform featuring RBAC, academic management, HR/Payroll, and student services. Built with a robust full-stack architecture and AWS S3 storage.",
+      tech: ["React", "Node.js", "Express", "PostgreSQL", "Sequelize", "Redis", "AWS S3", "Tailwind CSS"],
+      image: "/unipilot_project_mockup_1773678907320.png",
+      tags: ["Full-Stack", "Education", "Management"]
     },
     {
       id: 2,
-      name: "Multi-Modal AI Agent with Voice Assistance",
-      link: "https://github.com/KRISHNA-BHAGAVAN/Multimodal_AI_Agent_with_voice",
-      summary: "Voice assistant integrating Groq, Gemini, Faster Whisper; speech-to-text, image analysis, LangGraph workflows with memory.",
-      tech: ["Groq", "Gemini", "Whisper", "LangGraph"],
-      image: "https://images.unsplash.com/photo-1761311984112-ce2c5db45984",
-      tags: ["AI", "Voice", "Multi-Modal"]
+      name: "Bajaj Hackrx 6.0 IQRS – Intelligent Query & Reasoning System",
+      link: "https://github.com/KRISHNA-BHAGAVAN/Bajaj-Hackrx-6.0-Entity",
+      summary: "AI-powered Python backend service using LangGraph, RAG, and LLMs to answer complex queries from multi-format documents (PDF, DOCX, PPTX, images via OCR). Features autonomous agent workflows and scalable FastAPI architecture.",
+      tech: ["Python", "LangGraph", "RAG", "FastAPI", "FAISS", "OpenAI", "Gemini"],
+      image: "https://images.unsplash.com/photo-1554224155-cfa08c2a758f",
+      tags: ["AI", "Backend", "Python"]
     },
     {
       id: 3,
       name: "Mobster Merch – An Ecommerce Site",
       link: "https://github.com/KRISHNA-BHAGAVAN/Mobster-Merch",
-      summary: "Production-ready e-commerce with React+TS, Express, MySQL, JWT auth, PhonePe payments, admin dashboard, Redis caching, Cloudinary, Nginx.",
-      tech: ["React js", "TypeScript", "Node js", "Express js", "MySQL", "Redis"],
+      summary: "Production-ready ecommerce with React+TS, Express, MySQL, JWT auth, PhonePe payments, admin dashboard, Redis caching, Cloudinary, and Nginx deployment.",
+      tech: ["React 18", "TypeScript", "Node.js", "Express.js", "MySQL", "Redis", "Cloudinary"],
       image: "https://images.unsplash.com/photo-1758522484646-c8694d1784fa",
       tags: ["Full-Stack", "Ecommerce", "TypeScript"]
+    },
+    {
+      id: 4,
+      name: "Entity – Smart Documentation System",
+      link: "https://github.com/KRISHNA-BHAGAVAN/Entity",
+      summary: "AI-powered document management system that automates variable extraction from .docx templates. Features native Word-quality previews, event-based organization, and secure BYOK architecture.",
+      tech: ["LangChain", "OpenAI", "Google Gemini", "Groq", "FastAPI", "React", "Docker"],
+      image: "/entity_project_mockup_1773678889756.png",
+      tags: ["AI", "Automation", "SaaS"]
+    },
+    {
+      id: 5,
+      name: "Multi-Modal AI Agent with Voice Assistance",
+      link: "https://github.com/KRISHNA-BHAGAVAN/Multimodal_AI_Agent_with_voice",
+      summary: "Voice assistant integrating Groq, Gemini, and Faster Whisper; processes voice commands, images, and clipboard data with context-aware responses and LangGraph workflows.",
+      tech: ["Groq", "Gemini", "Whisper", "LangGraph", "Python"],
+      image: "https://images.unsplash.com/photo-1761311984112-ce2c5db45984",
+      tags: ["AI", "Voice", "Multi-Modal"]
     }
   ],
 
@@ -66,31 +88,31 @@ export const portfolioData = {
       id: 1,
       role: "In-House Intern",
       org: "Aditya University",
-      period: "Recent",
-      details: "Built 'Automated Reporting System' to automate college report generation with secure auth and streamlined admin workflows."
+      period: "Mar. 2025 – Jun. 2025",
+      details: "Developed 'Automated Reporting System' to automate College Report Generation processes, streamlining administrative workflows and reducing manual effort. Implemented highly secured Authentication system."
     }
   ],
 
   achievements: [
-    "Selected for Finals in Bajaj Hackrx 6.0 - National level hackathon"
+    "Selected for Finals in Bajaj Hackrx 6.0 - National level Indian Hackathon"
   ],
 
   education: [
     {
       id: 1,
-      degree: "B.Tech, AIML",
+      degree: "B.Tech, AIML | CGPA: 7.62 (68.7%)",
       school: "Aditya Engineering College (AEC), Surampalem, Andhra Pradesh, India",
-      years: "2022 – Present"
+      years: "2022 – 2026"
     },
     {
       id: 2,
-      degree: "Class XII (Intermediate - MPC)",
+      degree: "Class XII (Intermediate - MPC) | 91%",
       school: "Vaishnavi Junior College, Tuni, Andhra Pradesh, India",
       years: "2020 – 2022"
     },
     {
       id: 3,
-      degree: "Class X (SSC)",
+      degree: "Class X (SSC) | 95.83%",
       school: "Loyola E.M School, Tuni, Andhra Pradesh, India",
       years: "2019 – 2020"
     }
