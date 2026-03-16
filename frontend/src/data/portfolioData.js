@@ -40,6 +40,7 @@ export const portfolioData = {
       id: 1,
       name: "UniPilot – University Management System",
       link: "https://github.com/gspavan07/UniPilot",
+      website: "https://unipilot.in",
       summary: "Comprehensive university administration platform featuring RBAC, academic management, HR/Payroll, and student services. Built with a robust full-stack architecture and AWS S3 storage.",
       tech: ["React", "Node.js", "Express", "PostgreSQL", "Sequelize", "Redis", "AWS S3", "Tailwind CSS"],
       image: "/unipilot_project_mockup_1773678907320.png",
@@ -86,6 +87,14 @@ export const portfolioData = {
   experience: [
     {
       id: 1,
+      role: "Co-Founder & Full Stack AI Engineer",
+      org: "Ofzen",
+      period: "Mar. 2025 – Present",
+      website: "https://ofzen.in",
+      details: "Architected high-availability server infrastructures and scalable microservices for production-grade AI solutions. Developed and deployed full-stack features utilizing a data-driven approach to bridge the gap between complex AI models and user-centric interfaces."
+    },
+    {
+      id: 2,
       role: "In-House Intern",
       org: "Aditya University",
       period: "Mar. 2025 – Jun. 2025",

@@ -76,6 +76,7 @@ const Footer = () => {
                 href={`mailto:${personal.email}`}
                 className="p-3 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300"
                 aria-label="Email"
+                target='_blank'
               >
                 <Mail className="h-5 w-5" />
               </a>

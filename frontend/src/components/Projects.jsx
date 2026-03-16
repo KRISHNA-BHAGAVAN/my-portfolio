@@ -52,15 +52,17 @@ const Projects = () => {
                   >
                     <Github className="w-6 h-6 text-white" />
                   </a>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-teal-500 hover:bg-teal-400 rounded-full text-white transition-all hover:scale-110 shadow-lg shadow-teal-500/20"
-                    title="Live Preview"
-                  >
-                    <ExternalLink className="w-6 h-6" />
-                  </a>
+                  {project.website && (
+                    <a
+                      href={project.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-teal-500 hover:bg-teal-400 rounded-full text-white transition-all hover:scale-110 shadow-lg shadow-teal-500/20"
+                      title="Live Website"
+                    >
+                      <ExternalLink className="w-6 h-6" />
+                    </a>
+                  )}
                 </div>
                 
                 {/* Floating Tags */}
