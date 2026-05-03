@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useLenis } from '../context/LenisContext';
+import { useScrollY } from '../hooks/useParallax';
 import { Button } from './ui/button';
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
+  const { lenis } = useLenis();
+  const scrollY = useScrollY();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isScrolled = scrollY > 20;
 
   const navItems = [
     { label: 'About', href: '#about' },
@@ -27,11 +24,11 @@ const Header = () => {
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setIsMenuOpen(false);
+    const target = document.querySelector(href);
+    if (target && lenis.current) {
+      lenis.current.scrollTo(target, { offset: -64, duration: 1.4 });
     }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -44,7 +41,6 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <a
             href="#hero"
             className="text-xl font-bold text-gray-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
@@ -53,7 +49,6 @@ const Header = () => {
             KB
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <a
@@ -80,7 +75,6 @@ const Header = () => {
             </Button>
           </nav>
 
-          {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center space-x-2">
             <Button
               variant="ghost"
@@ -109,7 +103,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="md:hidden pb-4 pt-2">
             {navItems.map((item) => (

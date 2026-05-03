@@ -3,16 +3,18 @@ import { ArrowRight, Github, Linkedin, Mail, Phone, Download } from 'lucide-reac
 import { Button } from './ui/button';
 import { portfolioData } from '../data/portfolioData';
 import { useScrollY, useScrollReveal } from '../hooks/useParallax';
+import { useLenis } from '../context/LenisContext';
 
 const Hero = () => {
   const { personal } = portfolioData;
   const scrollY = useScrollY();
+  const { lenis } = useLenis();
   const [contentRef, contentVisible] = useScrollReveal();
 
   const handleContactClick = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const target = document.querySelector('#contact');
+    if (target && lenis.current) {
+      lenis.current.scrollTo(target, { offset: -64, duration: 1.4 });
     }
   };
 
@@ -25,13 +27,13 @@ const Hero = () => {
         style={{ transform: `translateY(${scrollY * 0.15}px)` }}
       />
 
-      {/* Parallax orb — top left, drifts downward */}
+      {/* Parallax orb — top left */}
       <div
         className="absolute -top-10 -left-20 w-[480px] h-[480px] bg-teal-400/20 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none"
         style={{ transform: `translateY(${scrollY * 0.4}px)` }}
       />
 
-      {/* Parallax orb — bottom right, drifts upward */}
+      {/* Parallax orb — bottom right */}
       <div
         className="absolute -bottom-20 -right-20 w-[560px] h-[560px] bg-blue-400/15 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
         style={{ transform: `translateY(${scrollY * -0.25}px)` }}
@@ -132,7 +134,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
             </div>
 
-            {/* Floating Card — subtle independent drift */}
+            {/* Floating Card — independent drift */}
             <div
               className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl"
               style={{ transform: `translateY(${scrollY * 0.04}px)` }}

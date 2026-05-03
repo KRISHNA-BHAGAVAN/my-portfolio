@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { LenisProvider } from './context/LenisContext';
 import { Toaster } from './components/ui/toaster';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -16,22 +17,24 @@ import './App.css';
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <div className="App">
-          <Header />
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Experience />
-            <Education />
-            <Contact />
-          </main>
-          <Footer />
-          <Toaster />
-        </div>
-      </BrowserRouter>
+      <LenisProvider>
+        <BrowserRouter>
+          <div className="App">
+            <Header />
+            <main>
+              <Hero />
+              <About />
+              <Skills />
+              <Projects />
+              <Experience />
+              <Education />
+              <Contact />
+            </main>
+            <Footer />
+            <Toaster />
+          </div>
+        </BrowserRouter>
+      </LenisProvider>
     </ThemeProvider>
   );
 }

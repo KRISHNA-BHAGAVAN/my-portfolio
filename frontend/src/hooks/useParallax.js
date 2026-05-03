@@ -1,24 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useLenis } from '../context/LenisContext';
 
 export const useScrollY = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const rafRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-      });
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  return scrollY;
+  const ctx = useLenis();
+  return ctx ? ctx.scrollY : 0;
 };
 
 export const useParallax = (speed = 0.3) => {
