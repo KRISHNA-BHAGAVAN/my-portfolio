@@ -1,23 +1,44 @@
 import React from 'react';
 import { ExternalLink, Github, ChevronRight } from 'lucide-react';
-import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { portfolioData } from '../data/portfolioData';
+import { useScrollReveal, useStaggeredReveal, useScrollY } from '../hooks/useParallax';
 
 const Projects = () => {
   const { projects } = portfolioData;
+  const scrollY = useScrollY();
+  const [titleRef, titleVisible] = useScrollReveal();
+  const [gridRef, visibleCount] = useStaggeredReveal(projects.length);
 
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#0B0F1A] relative overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20 dark:opacity-40">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 -right-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
-      </div>
+
+      {/* Parallax background orbs at different speeds */}
+      <div
+        className="absolute -top-24 -left-24 w-96 h-96 bg-teal-500/15 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none"
+        style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+      />
+      <div
+        className="absolute top-1/2 -right-24 w-64 h-64 bg-blue-500/15 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
+        style={{ transform: `translateY(${scrollY * -0.08}px)` }}
+      />
+      <div
+        className="absolute bottom-0 left-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"
+        style={{ transform: `translateY(${scrollY * 0.06}px)` }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
+        {/* Title */}
+        <div
+          ref={titleRef}
+          className="text-center mb-16"
+          style={{
+            opacity: titleVisible ? 1 : 0,
+            transform: titleVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
           <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6">
             Featured <span className="text-teal-600 dark:text-teal-400">Projects</span>
           </h2>
@@ -27,11 +48,19 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {projects.map((project) => (
+        {/* Staggered project card reveal */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {projects.map((project, index) => (
             <Card
               key={project.id}
               className="group relative flex flex-col h-full overflow-hidden border-0 bg-white/70 dark:bg-slate-900/40 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 ring-1 ring-slate-200 dark:ring-slate-800"
+              style={{
+                opacity: visibleCount > index ? 1 : 0,
+                transform: visibleCount > index
+                  ? 'translateY(0) scale(1)'
+                  : 'translateY(40px) scale(0.96)',
+                transition: 'opacity 0.6s ease, transform 0.6s ease',
+              }}
             >
               {/* Project Image Container */}
               <div className="relative aspect-video overflow-hidden">
@@ -41,7 +70,6 @@ const Projects = () => {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
-                {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-90 transition-all duration-500 flex items-center justify-center gap-4">
                   <a
                     href={project.link}
@@ -64,8 +92,7 @@ const Projects = () => {
                     </a>
                   )}
                 </div>
-                
-                {/* Floating Tags */}
+
                 <div className="absolute top-4 left-4 flex gap-2">
                   {project.tags.slice(0, 1).map((tag, idx) => (
                     <span key={idx} className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white bg-teal-600/90 backdrop-blur-md rounded-full">
@@ -80,12 +107,11 @@ const Projects = () => {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                   {project.name}
                 </h3>
-                
+
                 <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6 flex-grow leading-relaxed">
                   {project.summary}
                 </p>
 
-                {/* Tech Badges */}
                 <div className="flex flex-wrap gap-2 mb-8 mt-auto">
                   {project.tech.slice(0, 4).map((tech, idx) => (
                     <Badge
@@ -103,7 +129,6 @@ const Projects = () => {
                   )}
                 </div>
 
-                {/* Footer Link */}
                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                   <a
                     href={project.link}

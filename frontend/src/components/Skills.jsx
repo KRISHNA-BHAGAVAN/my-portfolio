@@ -1,33 +1,25 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
+import { useScrollReveal, useStaggeredReveal } from '../hooks/useParallax';
 
 const skillIconMap = {
-  // Frontend
   "HTML5": { icon: "/skill-icons/html5.svg", color: "#E34F26" },
   "CSS3": { icon: "/skill-icons/css.svg", color: "#1572B6" },
   "JavaScript (ES6+)": { icon: "/skill-icons/javascript.svg", color: "#F7DF1E" },
   "React.js": { icon: "/skill-icons/react.svg", color: "#61DAFB" },
   "Tailwind CSS": { icon: "/skill-icons/tailwindcss.svg", color: "#06B6D4" },
-  
-  // Backend
   "Node.js": { icon: "/skill-icons/nodedotjs.svg", color: "#339933" },
-  "Express.js": { icon: "/skill-icons/express.svg", color: "#FFFFFF" }, // High contrast for dark mode
+  "Express.js": { icon: "/skill-icons/express.svg", color: "#FFFFFF" },
   "FastAPI": { icon: "/skill-icons/fastapi.svg", color: "#009688" },
-  
-  // Databases
   "MySQL": { icon: "/skill-icons/mysql.svg", color: "#4479A1" },
   "MongoDB": { icon: "/skill-icons/mongodb.svg", color: "#47A248" },
   "PostgreSQL": { icon: "/skill-icons/postgresql.svg", color: "#4169E1" },
-  
-  // Generative AI
   "Python": { icon: "/skill-icons/python.svg", color: "#3776AB" },
   "LangChain": { icon: "/skill-icons/langchain.svg", color: "#1C3C3C" },
   "LangGraph": { icon: "/skill-icons/langgraph.svg", color: "#1C3C3C" },
   "Pydantic": { icon: "/skill-icons/pydantic.svg", color: "#E92063" },
   "LangSmith": { icon: "/skill-icons/langchain.svg", color: "#1C3C3C" },
   "Agentic AI": { icon: "/skill-icons/modelcontextprotocol.svg", color: "#000000" },
-
-  // DevOps & Tools
   "Git": { icon: "/skill-icons/git.svg", color: "#F05032" },
   "Docker": { icon: "/skill-icons/docker.svg", color: "#2496ED" },
   "Linux": { icon: "/skill-icons/linux.svg", color: "#FCC624" },
@@ -39,11 +31,27 @@ const skillIconMap = {
 
 const Skills = () => {
   const { skills } = portfolioData;
+  const [titleRef, titleVisible] = useScrollReveal();
+  const [gridRef, visibleCount] = useStaggeredReveal(skills.length);
 
   return (
-    <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#0B1120]">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+    <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#0B1120] relative overflow-hidden">
+
+      {/* Parallax background blobs */}
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-teal-400/10 dark:bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Title */}
+        <div
+          ref={titleRef}
+          className="text-center mb-20"
+          style={{
+            opacity: titleVisible ? 1 : 0,
+            transform: titleVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
           <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
             Technical <span className="text-teal-600 dark:text-teal-400">Toolkit</span>
           </h2>
@@ -53,50 +61,49 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Staggered grid reveal */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skillGroup, index) => (
             <div
               key={index}
               className="group bg-white dark:bg-slate-900/40 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 transition-all duration-500 hover:shadow-2xl hover:shadow-teal-500/5"
+              style={{
+                opacity: visibleCount > index ? 1 : 0,
+                transform: visibleCount > index ? 'translateY(0) scale(1)' : 'translateY(32px) scale(0.97)',
+                transition: 'opacity 0.55s ease, transform 0.55s ease',
+              }}
             >
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                 {skillGroup.category}
               </h3>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 {skillGroup.items.map((skill, idx) => {
                   const iconData = skillIconMap[skill];
                   const color = iconData ? iconData.color : '#0d9488';
-                  
+
                   return (
                     <div
                       key={idx}
                       className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/20 border border-transparent transition-all duration-300 hover:scale-105 group/item cursor-default"
-                      style={{ 
-                        '--accent-color': color,
-                      }}
+                      style={{ '--accent-color': color }}
                     >
-                      <div 
+                      <div
                         className="w-11 h-11 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm p-2.5 transition-all duration-500 group-hover/item:shadow-lg relative overflow-hidden"
-                        style={{ 
-                          border: `1px solid ${color}40`,
-                        }}
+                        style={{ border: `1px solid ${color}40` }}
                       >
-                        {/* Vibrant background glow */}
-                        <div 
+                        <div
                           className="absolute inset-0 opacity-0 group-hover/item:opacity-20 transition-opacity duration-500"
                           style={{ backgroundColor: color }}
                         />
-                        
                         {iconData ? (
-                          <img 
-                            src={iconData.icon} 
-                            alt={skill} 
+                          <img
+                            src={iconData.icon}
+                            alt={skill}
                             className="w-full h-full object-contain relative z-10"
-                            style={{ 
-                              // Apply color to SVGs if they are monochromatic shapes
-                              filter: skill === "Express.js" && iconData.color === "#FFFFFF" 
-                                ? 'none' 
+                            style={{
+                              filter: skill === "Express.js" && iconData.color === "#FFFFFF"
+                                ? 'none'
                                 : `drop-shadow(0 0 1px ${color})`,
                             }}
                           />

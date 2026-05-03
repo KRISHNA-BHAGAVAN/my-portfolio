@@ -1,9 +1,13 @@
 import React from 'react';
 import { Code2, Database, Bot, Globe } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { useScrollReveal, useStaggeredReveal } from '../hooks/useParallax';
 
 const About = () => {
   const { personal } = portfolioData;
+  const [titleRef, titleVisible] = useScrollReveal();
+  const [leftRef, leftVisible] = useScrollReveal();
+  const [cardsRef, visibleCount] = useStaggeredReveal(4);
 
   const highlights = [
     {
@@ -29,9 +33,22 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 relative overflow-hidden">
+
+      {/* Subtle parallax background blob */}
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-100/40 dark:bg-teal-900/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Title — fades in */}
+        <div
+          ref={titleRef}
+          className="text-center mb-16"
+          style={{
+            opacity: titleVisible ? 1 : 0,
+            transform: titleVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 0.6s ease, transform 0.6s ease',
+          }}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             About Me
           </h2>
@@ -39,19 +56,27 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-6">
+          {/* Left Content — slides in from left */}
+          <div
+            ref={leftRef}
+            className="space-y-6"
+            style={{
+              opacity: leftVisible ? 1 : 0,
+              transform: leftVisible ? 'translateX(0)' : 'translateX(-40px)',
+              transition: 'opacity 0.7s ease, transform 0.7s ease',
+            }}
+          >
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
               Building Impactful Solutions with Emerging Technologies
             </h3>
-            
+
             <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
               {personal.careerObjective}
             </p>
-            
+
             <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-              I specialize in creating production-ready applications that solve real-world problems. 
-              From building intelligent AI-powered systems to developing scalable e-commerce platforms, 
+              I specialize in creating production-ready applications that solve real-world problems.
+              From building intelligent AI-powered systems to developing scalable e-commerce platforms,
               I'm passionate about leveraging technology to create meaningful impact.
             </p>
 
@@ -68,14 +93,19 @@ const About = () => {
             </div>
           </div>
 
-          {/* Right - Highlights Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Right — Staggered card reveal */}
+          <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {highlights.map((item, index) => {
               const Icon = item.icon;
               return (
                 <div
                   key={index}
                   className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    opacity: visibleCount > index ? 1 : 0,
+                    transform: visibleCount > index ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
+                    transition: 'opacity 0.5s ease, transform 0.5s ease',
+                  }}
                 >
                   <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
