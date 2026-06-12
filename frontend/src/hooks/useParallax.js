@@ -16,31 +16,17 @@ export const useScrollReveal = (options = {}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    let fallback;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          clearTimeout(fallback);
           observer.disconnect();
         }
       },
-      { threshold: 0.05, rootMargin: '50px 0px 50px 0px', ...options }
+      { threshold: 0.1, rootMargin: '0px 0px -60px 0px', ...options }
     );
-
     if (ref.current) observer.observe(ref.current);
-
-    // Fallback: if observer never fires (e.g. inside an iframe), show content anyway
-    fallback = setTimeout(() => {
-      setIsVisible(true);
-      observer.disconnect();
-    }, 600);
-
-    return () => {
-      clearTimeout(fallback);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return [ref, isVisible];
@@ -52,43 +38,27 @@ export const useStaggeredReveal = (count, options = {}) => {
 
   useEffect(() => {
     let timer;
-    let fallback;
-
-    const runStagger = () => {
-      let i = 0;
-      const step = () => {
-        if (i <= count) {
-          setVisibleCount(i);
-          i++;
-          timer = setTimeout(step, 80);
-        }
-      };
-      step();
-    };
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          clearTimeout(fallback);
-          runStagger();
+          let i = 0;
+          const step = () => {
+            if (i <= count) {
+              setVisibleCount(i);
+              i++;
+              timer = setTimeout(step, 80);
+            }
+          };
+          step();
           observer.disconnect();
         }
       },
-      { threshold: 0.05, rootMargin: '50px 0px 50px 0px', ...options }
+      { threshold: 0.1, rootMargin: '0px 0px -60px 0px', ...options }
     );
-
     if (ref.current) observer.observe(ref.current);
-
-    // Fallback: if observer never fires (e.g. inside an iframe), show content anyway
-    fallback = setTimeout(() => {
-      observer.disconnect();
-      runStagger();
-    }, 600);
-
     return () => {
       observer.disconnect();
       clearTimeout(timer);
-      clearTimeout(fallback);
     };
   }, [count]);
 

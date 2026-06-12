@@ -19,17 +19,26 @@ export function useReveal(threshold = 0.18) {
       setVisible(true);
       return undefined;
     }
+    let fallback;
     const io = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setVisible(true);
+          clearTimeout(fallback);
           io.disconnect();
         }
       },
-      { threshold }
+      { threshold, rootMargin: '50px 0px 50px 0px' }
     );
     io.observe(el);
-    return () => io.disconnect();
+    fallback = setTimeout(() => {
+      setVisible(true);
+      io.disconnect();
+    }, 600);
+    return () => {
+      clearTimeout(fallback);
+      io.disconnect();
+    };
   }, [threshold]);
 
   return [ref, visible];

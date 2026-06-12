@@ -1,151 +1,112 @@
 import React from 'react';
-import { ArrowRight, Github, Linkedin, Mail, Phone, Download } from 'lucide-react';
-import { Button } from './ui/button';
+import { ArrowDown, ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react';
+import ParticleField from './ParticleField';
+import Magnetic from './Magnetic';
 import { portfolioData } from '../data/portfolioData';
-import { useScrollY, useScrollReveal } from '../hooks/useParallax';
 import { useLenis } from '../context/LenisContext';
-import TextReveal from './TextReveal';
 
 const Hero = () => {
   const { personal } = portfolioData;
-  const scrollY = useScrollY();
   const { lenis } = useLenis();
-  const [contentRef, contentVisible] = useScrollReveal();
 
-  const handleContactClick = () => {
-    const target = document.querySelector('#contact');
-    if (target && lenis.current) {
-      lenis.current.scrollTo(target, { offset: -64, duration: 1.4 });
-    }
+  const scrollTo = (e, sel) => {
+    e.preventDefault();
+    const target = document.querySelector(sel);
+    if (!target) return;
+    if (lenis.current) lenis.current.scrollTo(target, { duration: 1.5 });
+    else target.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const socials = [
+    { href: personal.github, label: 'GitHub', Icon: Github, external: true },
+    { href: personal.linkedin, label: 'LinkedIn', Icon: Linkedin, external: true },
+    { href: `mailto:${personal.email}`, label: 'Email', Icon: Mail, external: false },
+  ];
+
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex flex-col overflow-hidden">
+      <ParticleField className="absolute inset-0 w-full h-full" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,7,0.55)_75%,#050507_100%)]" />
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-glow/[0.07] blur-[120px] pointer-events-none" />
 
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
-        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-      />
-      <div
-        className="absolute -top-10 -left-20 w-[480px] h-[480px] bg-teal-400/20 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none"
-        style={{ transform: `translateY(${scrollY * 0.4}px)` }}
-      />
-      <div
-        className="absolute -bottom-20 -right-20 w-[560px] h-[560px] bg-blue-400/15 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"
-        style={{ transform: `translateY(${scrollY * -0.25}px)` }}
-      />
-      <div
-        className="absolute top-16 right-1/4 w-56 h-56 bg-purple-400/10 dark:bg-purple-500/10 rounded-full blur-2xl pointer-events-none"
-        style={{ transform: `translateY(${scrollY * 0.55}px)` }}
-      />
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1400px] w-full mx-auto px-5 sm:px-8 pt-24 pb-16">
+        <p
+          className="hero-fade font-mono text-[11px] sm:text-xs uppercase tracking-[0.28em] text-fog flex items-center gap-3 mb-8"
+          style={{ animationDelay: '1.5s' }}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+          Open to opportunities — 2026
+        </p>
 
-      <div ref={contentRef} className="max-w-7xl mx-auto w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <h1 className="font-display font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,11vw,9.5rem)] uppercase text-mist">
+          <span className="hero-line">
+            <span className="hero-line-inner" style={{ animationDelay: '1.05s' }}>Krishna</span>
+          </span>
+          <span className="hero-line">
+            <span className="hero-line-inner text-gradient" style={{ animationDelay: '1.18s' }}>Bhagavan</span>
+          </span>
+        </h1>
 
-          {/* Left Content */}
-          <div
-            className="space-y-6"
-            style={{
-              opacity: contentVisible ? 1 : 0,
-              transform: contentVisible ? 'translateX(0)' : 'translateX(-48px)',
-              transition: 'opacity 0.5s ease, transform 0.5s ease',
-            }}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+          <p
+            className="hero-fade font-mono text-xs sm:text-sm uppercase tracking-[0.2em] text-fog leading-loose"
+            style={{ animationDelay: '1.6s' }}
           >
-            <div className="inline-block px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium">
-              Available for opportunities
-            </div>
+            Full-Stack Engineer
+            <br />
+            Generative &amp; Agentic AI Systems
+          </p>
+          <p
+            className="hero-fade text-fog text-base sm:text-lg leading-relaxed md:max-w-md md:justify-self-end"
+            style={{ animationDelay: '1.7s' }}
+          >
+            {personal.careerObjective}
+          </p>
+        </div>
 
-            {/* Word-by-word reveal on h1 — handles mixed string + colored span */}
-            <TextReveal
-              tag="h1"
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight"
-              delay={0.25}
-              stagger={0.1}
-              duration={0.85}
+        <div className="hero-fade flex flex-wrap items-center gap-4 mt-12" style={{ animationDelay: '1.85s' }}>
+          <Magnetic>
+            <a
+              href="#projects"
+              onClick={(e) => scrollTo(e, '#projects')}
+              className="inline-flex items-center gap-2 bg-mist text-void font-medium px-7 py-4 rounded-full hover:bg-glow transition-colors duration-300"
             >
-              {"Hi, I'm "}
-              <span className="text-teal-600 dark:text-teal-400">{personal.name.split(' ')[0]}</span>
-            </TextReveal>
-
-            {/* Subtitle word reveal */}
-            <TextReveal
-              tag="h2"
-              className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-300"
-              delay={0.55}
-              stagger={0.06}
-              duration={0.75}
+              View selected work <ArrowDown className="h-4 w-4" />
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a
+              href={`${process.env.PUBLIC_URL}${personal.resumePdf}`}
+              download
+              className="inline-flex items-center gap-2 border border-line text-mist px-7 py-4 rounded-full hover:border-glow hover:text-glow transition-colors duration-300"
             >
-              {personal.title}
-            </TextReveal>
-
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-              {personal.careerObjective}
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Button
-                onClick={handleContactClick}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-6 text-base"
-              >
-                Get In Touch
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button variant="outline" className="px-6 py-6 text-base border-2" asChild>
-                <a href={personal.resumePdf} download>
-                  <Download className="mr-2 h-5 w-5" />
-                  Download Resume
+              Résumé <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </Magnetic>
+          <div className="flex items-center gap-2 sm:ml-4">
+            {socials.map(({ href, label, Icon, external }) => (
+              <Magnetic key={label} strength={0.4}>
+                <a
+                  href={href}
+                  aria-label={label}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="flex items-center justify-center h-12 w-12 rounded-full border border-line text-fog hover:text-glow hover:border-glow transition-colors duration-300"
+                >
+                  <Icon className="h-4 w-4" />
                 </a>
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-4 pt-4">
-              <a href={personal.github} target="_blank" rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-teal-600 dark:hover:bg-teal-600 text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300"
-                aria-label="GitHub"><Github className="h-5 w-5" /></a>
-              <a href={personal.linkedin} target="_blank" rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-teal-600 dark:hover:bg-teal-600 text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300"
-                aria-label="LinkedIn"><Linkedin className="h-5 w-5" /></a>
-              <a href={`mailto:${personal.email}`}
-                className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-teal-600 dark:hover:bg-teal-600 text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300"
-                aria-label="Email"><Mail className="h-5 w-5" /></a>
-              <a href={`tel:${personal.phone}`}
-                className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-teal-600 dark:hover:bg-teal-600 text-gray-700 dark:text-gray-300 hover:text-white transition-all duration-300"
-                aria-label="Phone"><Phone className="h-5 w-5" /></a>
-            </div>
+              </Magnetic>
+            ))}
           </div>
+        </div>
+      </div>
 
-          {/* Right Image */}
-          <div
-            className="relative"
-            style={{
-              opacity: contentVisible ? 1 : 0,
-              transform: contentVisible
-                ? `translateX(0) translateY(${scrollY * -0.08}px)`
-                : `translateX(48px)`,
-              transition: 'opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s',
-            }}
-          >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img
-                src={`${process.env.PUBLIC_URL}/krishna bhagavan official.jpeg`}
-                alt="Krishna Bhagavan Karri"
-                className="w-full h-auto object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
-            </div>
-            <div
-              className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl"
-              style={{ transform: `translateY(${scrollY * 0.04}px)` }}
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">Available for work</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Open to opportunities</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="hero-fade relative z-10 pb-10 flex justify-center" style={{ animationDelay: '2.1s' }}>
+        <div className="flex flex-col items-center gap-3 text-fog">
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+          <span className="scroll-beam" />
         </div>
       </div>
     </section>

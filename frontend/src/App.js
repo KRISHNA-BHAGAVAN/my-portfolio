@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { LenisProvider } from './context/LenisContext';
 import { Toaster } from './components/ui/toaster';
+import Preloader from './components/Preloader';
+import CustomCursor from './components/CustomCursor';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -19,6 +21,8 @@ function App() {
     <ThemeProvider>
       <LenisProvider>
         <BrowserRouter>
+          <Preloader />
+          <CustomCursor />
           <div className="App">
             <Header />
             <main>

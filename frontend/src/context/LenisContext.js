@@ -1,28 +1,24 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
-const LenisContext = createContext(null);
+const LenisContext = createContext({ lenis: { current: null } });
 
 export const LenisProvider = ({ children }) => {
   const lenisRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.25,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.8,
+      smoothWheel: !reduced,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.6,
       infinite: false,
     });
 
     lenisRef.current = lenis;
-
-    lenis.on('scroll', ({ scroll }) => {
-      setScrollY(scroll);
-    });
 
     let rafId;
     const raf = (time) => {
@@ -39,7 +35,7 @@ export const LenisProvider = ({ children }) => {
   }, []);
 
   return (
-    <LenisContext.Provider value={{ lenis: lenisRef, scrollY }}>
+    <LenisContext.Provider value={{ lenis: lenisRef }}>
       {children}
     </LenisContext.Provider>
   );
