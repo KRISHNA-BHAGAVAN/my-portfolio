@@ -1,107 +1,113 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Heart, ArrowUp } from 'lucide-react';
-import { Button } from './ui/button';
+import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { useLenis } from '../context/LenisContext';
+
+const NAV = [
+  { label: 'About',      href: '#about' },
+  { label: 'Skills',     href: '#skills' },
+  { label: 'Projects',   href: '#projects' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Education',  href: '#education' },
+  { label: 'Contact',    href: '#contact' },
+];
 
 const Footer = () => {
   const { personal } = portfolioData;
-  const currentYear = new Date().getFullYear();
+  const { lenis } = useLenis();
+  const year = new Date().getFullYear();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollTo = (e, sel) => {
+    e.preventDefault();
+    const target = document.querySelector(sel);
+    if (!target) return;
+    if (lenis?.current) lenis.current.scrollTo(target, { duration: 1.4 });
+    else target.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollTop = () => {
+    if (lenis?.current) lenis.current.scrollTo(0, { duration: 1.6 });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-gray-900 dark:bg-black text-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* About */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Krishna Bhagavan Karri</h3>
-            <p className="text-gray-400 mb-4">
-              Backend Developer passionate about building impactful solutions with AI and modern web technologies.
-            </p>
-          </div>
+    <footer className="relative bg-[var(--void)] border-t border-[var(--line)] overflow-hidden">
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-glow/40 to-transparent" />
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#about" className="text-gray-400 hover:text-teal-400 transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="text-gray-400 hover:text-teal-400 transition-colors">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="#skills" className="text-gray-400 hover:text-teal-400 transition-colors">
-                  Skills
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-400 hover:text-teal-400 transition-colors">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Connect */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Connect</h3>
-            <div className="flex gap-4 mb-4">
+      {/* Big name */}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 pt-20 pb-12 border-b border-[var(--line)]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <h2 className="font-display font-bold text-[clamp(2rem,7vw,6rem)] uppercase leading-none tracking-[-0.03em] text-mist/10 select-none">
+            Krishna<br />Bhagavan
+          </h2>
+          <div className="flex flex-col items-start lg:items-end gap-4">
+            <a
+              href={`mailto:${personal.email}`}
+              className="font-mono text-[12px] uppercase tracking-widest text-fog hover:text-glow transition-colors link-underline"
+            >
+              {personal.email}
+            </a>
+            <div className="flex items-center gap-3">
               <a
                 href={personal.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300"
                 aria-label="GitHub"
+                className="w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-fog hover:border-mist hover:text-mist transition-all duration-300"
               >
-                <Github className="h-5 w-5" />
+                <Github className="w-4 h-4" />
               </a>
               <a
                 href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300"
                 aria-label="LinkedIn"
+                className="w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-fog hover:border-mist hover:text-mist transition-all duration-300"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${personal.email}`}
-                className="p-3 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300"
                 aria-label="Email"
-                target='_blank'
+                className="w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-fog hover:border-mist hover:text-mist transition-all duration-300"
               >
-                <Mail className="h-5 w-5" />
+                <Mail className="w-4 h-4" />
               </a>
             </div>
-            <p className="text-gray-400 text-sm break-all">
-              {personal.email}
-            </p>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm flex items-center gap-1">
-            © {currentYear} Krishna Bhagavan Karri. Made with <Heart className="h-4 w-4 text-red-500 fill-current" /> using React & Tailwind
-          </p>
-          
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={scrollToTop}
-            className="rounded-full border-gray-700 hover:bg-teal-600 hover:border-teal-600 transition-all"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp className="h-5 w-5" />
-          </Button>
+      {/* Nav + bottom bar */}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 py-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          {/* Nav links */}
+          <nav className="flex flex-wrap gap-x-6 gap-y-2">
+            {NAV.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                onClick={(e) => scrollTo(e, href)}
+                className="font-mono text-[11px] uppercase tracking-widest text-fog hover:text-mist transition-colors"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Copyright + back to top */}
+          <div className="flex items-center gap-6">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-fog/50">
+              © {year} Krishna Bhagavan Karri
+            </p>
+            <button
+              onClick={scrollTop}
+              aria-label="Back to top"
+              className="w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-fog hover:border-mist hover:text-mist hover:-translate-y-1 transition-all duration-300"
+            >
+              <ArrowUp className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

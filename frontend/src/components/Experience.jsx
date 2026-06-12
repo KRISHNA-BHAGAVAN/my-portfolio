@@ -1,117 +1,162 @@
 import React from 'react';
-import { Briefcase, Trophy, Calendar, Globe, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import { useScrollReveal, useStaggeredReveal } from '../hooks/useParallax';
-import TextReveal from './TextReveal';
+import { useReveal } from '../hooks/useAnimations';
 
 const Experience = () => {
-  const { experience, achievements } = portfolioData;
-  const [timelineRef, visibleExp] = useStaggeredReveal(experience.length);
-  const [achieveRef, visibleAchieve] = useStaggeredReveal(achievements.length);
+  const { experience, achievements, personal } = portfolioData;
+  const [headRef, headVisible] = useReveal(0.1);
 
   return (
-    <section id="experience" className="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0F172A] relative overflow-hidden">
-      <div className="absolute top-1/3 -left-32 w-80 h-80 bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="experience" className="relative bg-[var(--surface)] overflow-hidden border-t border-[var(--line)]">
+      <div className="pointer-events-none absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full bg-glow/[0.04] blur-[120px]" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20">
-          <TextReveal
-            tag="h2"
-            className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-6 justify-center"
-            delay={0}
-            stagger={0.1}
-            duration={0.85}
-          >
-            {"Career "}
-            <span className="text-teal-600 dark:text-teal-400">Journey</span>
-          </TextReveal>
-          <div className="w-24 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
-          <p className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
-            A track record of leadership, rapid development, and technical innovation in AI and Web.
+      {/* Header */}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 pt-24 pb-16 border-b border-[var(--line)]">
+        <div ref={headRef} className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div>
+            <p className={`eyebrow mb-6 rv ${headVisible ? 'rv-in' : ''}`}>Career Journey</p>
+            <h2
+              className={`font-display font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(2.4rem,6vw,5rem)] uppercase text-mist rv ${headVisible ? 'rv-in' : ''}`}
+              style={{ transitionDelay: '0.1s' }}
+            >
+              Experience &<br /><span className="text-gradient">Achievements</span>
+            </h2>
+          </div>
+          <p className={`max-w-sm text-fog text-base leading-relaxed rv ${headVisible ? 'rv-in' : ''}`} style={{ transitionDelay: '0.2s' }}>
+            A track record of leadership, rapid development, and technical innovation across AI and web engineering.
           </p>
         </div>
+      </div>
 
+      {/* Body */}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-8 space-y-12">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3 mb-8">
-              <Briefcase className="h-6 w-6 text-teal-600" />
-              Professional Experience
-            </h3>
-            <div ref={timelineRef} className="relative border-l-2 border-slate-200 dark:border-slate-800 ml-4">
-              {experience.map((exp, index) => (
-                <div
-                  key={exp.id}
-                  className="mb-12 ml-8 relative group"
-                  style={{
-                    opacity: visibleExp > index ? 1 : 0,
-                    transform: visibleExp > index ? 'translateX(0)' : 'translateX(-32px)',
-                    transition: 'opacity 0.6s ease, transform 0.6s ease',
-                  }}
-                >
-                  <div className="absolute -left-[41px] top-0 w-6 h-6 bg-white dark:bg-slate-900 border-4 border-teal-600 rounded-full transition-transform duration-300 group-hover:scale-125 shadow-lg shadow-teal-500/20"></div>
-                  <div className="bg-slate-50 dark:bg-slate-900/50 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 backdrop-blur-sm hover:shadow-2xl hover:shadow-teal-500/5 transition-all duration-300">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                      <div>
-                        <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">{exp.role}</h4>
-                        <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-bold uppercase tracking-wider text-sm">
-                          <span>{exp.org}</span>
-                          {exp.website && (
-                            <a href={exp.website} target="_blank" rel="noopener noreferrer"
-                              className="inline-flex items-center text-xs font-medium hover:underline text-slate-500 dark:text-slate-500 hover:text-teal-600 dark:hover:text-teal-400">
-                              <Globe className="h-3 w-3 mr-1" />Website<ArrowUpRight className="h-3 w-3 ml-0.5" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-300 text-sm font-semibold border border-slate-100 dark:border-slate-700 w-fit">
-                        <Calendar className="h-4 w-4 text-teal-600" />
-                        {exp.period}
-                      </div>
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base">{exp.details}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+
+          {/* Timeline — left 8 cols */}
+          <div className="lg:col-span-8 space-y-0">
+            {experience.map((exp, i) => (
+              <ExperienceItem key={exp.id} exp={exp} index={i} total={experience.length} />
+            ))}
           </div>
 
-          <div className="lg:col-span-4 space-y-12">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3 mb-8">
-              <Trophy className="h-6 w-6 text-teal-600" />
-              Achievements
-            </h3>
-            <div ref={achieveRef} className="space-y-6">
-              {achievements.map((achievement, index) => (
-                <div
-                  key={index}
-                  className="p-6 bg-gradient-to-br from-teal-50 to-white dark:from-teal-900/10 dark:to-slate-900 rounded-2xl border border-teal-100/50 dark:border-teal-900/20 shadow-sm hover:shadow-md transition-all group"
-                  style={{
-                    opacity: visibleAchieve > index ? 1 : 0,
-                    transform: visibleAchieve > index ? 'translateX(0)' : 'translateX(32px)',
-                    transition: 'opacity 0.6s ease, transform 0.6s ease',
-                  }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 flex-shrink-0 w-8 h-8 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-lg shadow-sm group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300">🏆</div>
-                    <span className="text-slate-700 dark:text-slate-300 font-medium leading-normal">{achievement}</span>
-                  </div>
-                </div>
-              ))}
-              <div className="p-8 bg-teal-600 rounded-3xl text-white overflow-hidden relative group">
-                <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-                <h4 className="text-xl font-bold mb-4 relative z-10">Looking for more?</h4>
-                <p className="text-white/80 text-sm mb-6 relative z-10">Detailed breakdown of roles, projects, and impact available in my full resume.</p>
-                <a href={portfolioData.personal.resumePdf} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-teal-600 font-bold rounded-xl hover:bg-slate-100 transition-colors relative z-10 w-full">
-                  Download PDF Resume
-                </a>
-              </div>
-            </div>
+          {/* Sidebar — right 4 cols */}
+          <div className="lg:col-span-4 space-y-8">
+            {/* Achievements */}
+            <AchievementsPanel achievements={achievements} />
+            {/* Resume CTA */}
+            <ResumeCard resumePdf={personal.resumePdf} />
           </div>
+
         </div>
       </div>
     </section>
   );
 };
+
+function ExperienceItem({ exp, index, total }) {
+  const [ref, visible] = useReveal(0.15);
+  const isLast = index === total - 1;
+
+  return (
+    <div
+      ref={ref}
+      className={`rv ${visible ? 'rv-in' : ''} relative pl-10 ${!isLast ? 'pb-16' : ''}`}
+      style={{ transitionDelay: `${index * 0.12}s` }}
+    >
+      {/* Vertical line */}
+      {!isLast && (
+        <div className="absolute left-[7px] top-4 bottom-0 w-px bg-[var(--line)]" />
+      )}
+      {/* Dot */}
+      <div className="absolute left-0 top-1 w-3.5 h-3.5 rounded-full border-2 border-glow bg-[var(--void)] shadow-[0_0_12px_rgba(139,123,255,0.5)]" />
+
+      {/* Card */}
+      <div className="group border border-[var(--line)] rounded-2xl p-8 bg-[var(--void)] hover:border-glow/40 transition-all duration-500">
+        {/* Period pill */}
+        <div className="mb-6">
+          <span className="inline-block px-4 py-1.5 border border-[var(--line)] rounded-full font-mono text-[11px] uppercase tracking-wider text-fog">
+            {exp.period}
+          </span>
+        </div>
+
+        <div className="mb-4">
+          <h3 className="font-display font-bold text-2xl text-mist mb-2 leading-snug">
+            {exp.role}
+          </h3>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[12px] uppercase tracking-widest text-glow">{exp.org}</span>
+            {exp.website && (
+              <a
+                href={exp.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 font-mono text-[11px] text-fog hover:text-mist transition-colors group/link"
+              >
+                <span>Website</span>
+                <ArrowUpRight className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+              </a>
+            )}
+          </div>
+        </div>
+
+        <p className="text-fog text-base leading-relaxed">{exp.details}</p>
+
+        <div className="mt-6 w-8 h-px bg-glow/30 group-hover:w-20 transition-all duration-500" />
+      </div>
+    </div>
+  );
+}
+
+function AchievementsPanel({ achievements }) {
+  const [ref, visible] = useReveal(0.15);
+  return (
+    <div ref={ref} className={`rv ${visible ? 'rv-in' : ''}`} style={{ transitionDelay: '0.1s' }}>
+      <p className="eyebrow mb-6">Achievements</p>
+      <div className="space-y-4">
+        {achievements.map((a, i) => (
+          <div
+            key={i}
+            className="group flex items-start gap-4 p-6 border border-[var(--line)] rounded-2xl bg-[var(--void)] hover:border-glow/40 transition-all duration-400"
+          >
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-glow/10 flex items-center justify-center text-sm">
+              🏆
+            </div>
+            <p className="text-fog text-sm leading-relaxed group-hover:text-mist transition-colors">{a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ResumeCard({ resumePdf }) {
+  const [ref, visible] = useReveal(0.1);
+  return (
+    <div
+      ref={ref}
+      className={`rv ${visible ? 'rv-in' : ''} relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-glow/20 to-glow2/10 border border-glow/30`}
+      style={{ transitionDelay: '0.22s' }}
+    >
+      <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-glow/20 blur-3xl pointer-events-none" />
+      <p className="font-mono text-[11px] uppercase tracking-widest text-glow mb-4">Full Resume</p>
+      <h4 className="font-display font-bold text-xl text-mist mb-3 leading-snug">
+        See the complete story
+      </h4>
+      <p className="text-fog text-sm mb-6 leading-relaxed">
+        Detailed breakdown of roles, projects, and impact.
+      </p>
+      <a
+        href={resumePdf}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-mist text-[#0a0a0f] font-mono text-[12px] uppercase tracking-widest rounded-full hover:bg-white transition-colors font-bold"
+      >
+        Download PDF
+        <ArrowUpRight className="w-4 h-4" />
+      </a>
+    </div>
+  );
+}
 
 export default Experience;

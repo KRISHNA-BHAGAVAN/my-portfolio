@@ -1,97 +1,144 @@
 import React from 'react';
-import { Code2, Database, Bot, Globe } from 'lucide-react';
+import { useReveal, useCounter } from '../hooks/useAnimations';
 import { portfolioData } from '../data/portfolioData';
-import { useScrollReveal, useStaggeredReveal } from '../hooks/useParallax';
-import TextReveal from './TextReveal';
+
+const STATS = [
+  { value: 2, suffix: '+', label: 'Years building' },
+  { value: 5, suffix: '+', label: 'Projects shipped' },
+  { value: 3, suffix: '', label: 'AI frameworks' },
+  { value: 1, suffix: '', label: 'Hackathon final' },
+];
+
+const PILLARS = [
+  {
+    num: '01',
+    title: 'Full-Stack Engineering',
+    body: 'End-to-end product ownership — React frontends, Node/FastAPI backends, scalable microservices, and battle-tested deployment pipelines.',
+  },
+  {
+    num: '02',
+    title: 'Generative AI Systems',
+    body: 'LangChain, LangGraph, RAG pipelines, agentic workflows — turning LLM capabilities into production-grade intelligent products.',
+  },
+  {
+    num: '03',
+    title: 'Backend Architecture',
+    body: 'PostgreSQL, Redis, Docker, Nginx — designing systems that stay fast, reliable, and secure at every scale.',
+  },
+  {
+    num: '04',
+    title: 'Automation & Tooling',
+    body: 'Eliminating manual work through intelligent document processing, voice agents, and autonomous workflow systems.',
+  },
+];
+
+function StatCounter({ value, suffix, label, visible }) {
+  const count = useCounter(value, visible);
+  return (
+    <div className="space-y-1">
+      <p className="font-display font-bold text-[clamp(2.2rem,5vw,3.5rem)] leading-none text-mist">
+        {count}{suffix}
+      </p>
+      <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-fog">{label}</p>
+    </div>
+  );
+}
 
 const About = () => {
   const { personal } = portfolioData;
-  const [leftRef, leftVisible] = useScrollReveal();
-  const [cardsRef, visibleCount] = useStaggeredReveal(4);
-
-  const highlights = [
-    { icon: Code2, title: "Full Stack Development", description: "Building scalable web applications with modern technologies" },
-    { icon: Bot, title: "Generative AI", description: "Creating intelligent AI solutions with LangChain and LLMs" },
-    { icon: Database, title: "Backend Architecture", description: "Designing robust APIs and microservices" },
-    { icon: Globe, title: "Web Automation", description: "Automating workflows with modern automation tools" },
-  ];
+  const [headRef, headVisible] = useReveal(0.15);
+  const [statsRef, statsVisible] = useReveal(0.2);
+  const [pillarsRef, pillarsVisible] = useReveal(0.1);
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 relative overflow-hidden">
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-100/40 dark:bg-teal-900/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="about" className="relative bg-[var(--void)] overflow-hidden">
+      {/* ambient glow */}
+      <div className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-glow/[0.04] blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-glow2/[0.03] blur-[100px]" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <TextReveal
-            tag="h2"
-            className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4 justify-center"
-            delay={0}
-            stagger={0.1}
-            duration={0.8}
-          >
-            About Me
-          </TextReveal>
-          <div className="w-20 h-1 bg-teal-600 mx-auto rounded-full"></div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div
-            ref={leftRef}
-            className="space-y-6"
-            style={{
-              opacity: leftVisible ? 1 : 0,
-              transform: leftVisible ? 'translateX(0)' : 'translateX(-40px)',
-              transition: 'opacity 0.7s ease, transform 0.7s ease',
-            }}
-          >
-            <TextReveal
-              tag="h3"
-              className="text-2xl font-bold text-gray-900 dark:text-white"
-              delay={0.1}
-              stagger={0.06}
-              duration={0.75}
+      {/* ── Top band ── */}
+      <div className="border-b border-[var(--line)] px-5 sm:px-8 py-24 max-w-[1400px] mx-auto">
+        <div ref={headRef} className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+          {/* left */}
+          <div>
+            <p className={`eyebrow mb-8 rv ${headVisible ? 'rv-in' : ''}`} style={{ transitionDelay: '0s' }}>
+              About Me
+            </p>
+            <h2
+              className={`font-display font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(2.4rem,6vw,5rem)] uppercase text-mist rv ${headVisible ? 'rv-in' : ''}`}
+              style={{ transitionDelay: '0.1s' }}
             >
-              Building Impactful Solutions with Emerging Technologies
-            </TextReveal>
+              Building<br />
+              <span className="text-gradient">Impactful</span><br />
+              Solutions
+            </h2>
+          </div>
 
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+          {/* right */}
+          <div
+            className={`space-y-6 rv ${headVisible ? 'rv-in' : ''}`}
+            style={{ transitionDelay: '0.22s' }}
+          >
+            <p className="text-fog text-lg leading-relaxed max-w-xl">
               {personal.careerObjective}
             </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-              I specialize in creating production-ready applications that solve real-world problems.
-              From building intelligent AI-powered systems to developing scalable e-commerce platforms,
-              I'm passionate about leveraging technology to create meaningful impact.
+            <p className="text-fog text-base leading-relaxed max-w-xl">
+              I specialise in creating production-ready applications that solve real-world problems —
+              from intelligent AI-powered systems to scalable e-commerce platforms.
+              Every line I write is in service of meaningful, measurable impact.
             </p>
-
-            <div className="flex flex-wrap gap-3 pt-4">
-              <span className="px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium">Backend Developer</span>
-              <span className="px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium">AI Enthusiast</span>
-              <span className="px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium">Problem Solver</span>
+            <div className="flex flex-wrap gap-3 pt-2">
+              {['Full-Stack Dev', 'GenAI Engineer', 'Problem Solver'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-1.5 border border-[var(--line)] rounded-full font-mono text-[11px] uppercase tracking-widest text-fog hover:border-glow hover:text-mist transition-colors duration-300"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
+        </div>
+      </div>
 
-          <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {highlights.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={index}
-                  className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    opacity: visibleCount > index ? 1 : 0,
-                    transform: visibleCount > index ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.97)',
-                    transition: 'opacity 0.5s ease, transform 0.5s ease',
-                  }}
-                >
-                  <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
-                </div>
-              );
-            })}
-          </div>
+      {/* ── Stats row ── */}
+      <div className="border-b border-[var(--line)] px-5 sm:px-8 py-16 max-w-[1400px] mx-auto">
+        <div
+          ref={statsRef}
+          className="grid grid-cols-2 md:grid-cols-4 gap-10"
+        >
+          {STATS.map(({ value, suffix, label }, i) => (
+            <div
+              key={label}
+              className={`rv ${statsVisible ? 'rv-in' : ''}`}
+              style={{ transitionDelay: `${i * 0.08}s` }}
+            >
+              <StatCounter value={value} suffix={suffix} label={label} visible={statsVisible} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Capability pillars ── */}
+      <div className="px-5 sm:px-8 py-24 max-w-[1400px] mx-auto">
+        <div
+          ref={pillarsRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--line)]"
+        >
+          {PILLARS.map(({ num, title, body }, i) => (
+            <div
+              key={num}
+              className={`group bg-[var(--void)] p-8 hover:bg-[var(--surface)] transition-colors duration-500 rv ${pillarsVisible ? 'rv-in' : ''}`}
+              style={{ transitionDelay: `${i * 0.1}s` }}
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-glow mb-6">{num}</p>
+              <h3 className="font-display font-bold text-lg text-mist mb-4 leading-snug group-hover:text-gradient transition-all duration-500">
+                {title}
+              </h3>
+              <p className="text-fog text-sm leading-relaxed">{body}</p>
+              <div className="mt-8 w-8 h-px bg-glow/40 group-hover:w-16 transition-all duration-500" />
+            </div>
+          ))}
         </div>
       </div>
     </section>
