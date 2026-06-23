@@ -59,12 +59,25 @@ const Hero = () => {
             <br />
             Generative &amp; Agentic AI Systems
           </p>
-          <p
-            className="hero-fade text-fog text-base sm:text-lg leading-relaxed md:max-w-md md:justify-self-end"
+          <div
+            className="hero-fade flex flex-col gap-4 md:items-end"
             style={{ animationDelay: '1.7s' }}
           >
-            {personal.careerObjective}
-          </p>
+            <p className="text-fog text-base sm:text-lg leading-snug md:text-right max-w-xs">
+              Building intelligent products —<br />
+              from API to interface.
+            </p>
+            <div className="flex flex-wrap gap-2 md:justify-end">
+              {['Full-Stack', 'Generative AI', 'Agentic Systems'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1.5 rounded-full border border-[var(--line)] font-mono text-[10px] uppercase tracking-widest text-fog/80 hover:border-glow/50 hover:text-glow transition-colors duration-300"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="hero-fade flex flex-wrap items-center gap-4 mt-12" style={{ animationDelay: '1.85s' }}>
